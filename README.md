@@ -15,7 +15,7 @@ metrics:
   serviceMonitor:
     enabled: false
 nodeSelector:
-  node-role.kubernetes.io/worker: "true"
+  node-role.kubernetes.io/worker: 'true'
 podAnnotations: {}
 podLabels: {}
 podSecurityContext:
@@ -26,13 +26,15 @@ rbac:
   clusterWideAccess: false
   create: true
   podSecurityPolicy:
-    enabled: false
+    enabled: true
     resourceNames:
       - gitlab-runner
   rules: []
 resources: {}
 runners:
-  cache: {}
+  cache:
+    cacheType: File
+    path: /cache
   config: |
     [[runners]]
       [runners.kubernetes]
@@ -56,16 +58,16 @@ terminationGracePeriodSeconds: 3600
 tolerations: []
 useTini: false
 volumeMounts:
-   - name: gitlab-runner-0
-     mountPath: /runner
+  - mountPath: /cache
+    name: gitlab-runner-cache
 volumes:
-   - name: gitlab-runner-0
-     persistentVolumeClaim:
-       claimName: gitlab-runner-0
+  - name: gitlab-runner-cache
+    persistentVolumeClaim:
+      claimName: gitlab-runner-0
 certsSecretName: git.run.crt
 gitlabUrl: https://git.run
 global:
   cattle:
     systemProjectId: p-xlzwq
-runnerToken: glrt-TShDfMyABYzAo8Tm5BzK
+runnerToken: glrt-TShDfMyABYzto8Tm5BzK
 ```
