@@ -24,7 +24,7 @@ podSecurityContext:
 priorityClassName: ''
 rbac:
   clusterWideAccess: false
-  create: false
+  create: true
   podSecurityPolicy:
     enabled: false
     resourceNames:
