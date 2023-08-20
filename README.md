@@ -1,3 +1,4 @@
+```yml
 affinity: {}
 checkInterval: 30
 concurrent: 10
@@ -67,3 +68,4 @@ global:
   cattle:
     systemProjectId: p-xlzwq
 runnerToken: glrt-TShDfMyABYzAo8Tm5BzK
+```
