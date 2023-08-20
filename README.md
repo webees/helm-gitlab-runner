@@ -59,9 +59,9 @@ tolerations: []
 useTini: false
 volumeMounts:
   - mountPath: /cache
-    name: gitlab-runner-cache
+    name: gitlab-runner-0
 volumes:
-  - name: gitlab-runner-cache
+  - name: gitlab-runner-0
     persistentVolumeClaim:
       claimName: gitlab-runner-0
 certsSecretName: git.run.crt
