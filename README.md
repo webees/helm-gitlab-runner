@@ -57,7 +57,7 @@ tolerations: []
 useTini: false
 volumeMounts:
    - name: gitlab-runner-0
-     mountPath: /home/gitlab-runner
+     mountPath: /runner
 volumes:
    - name: gitlab-runner-0
      persistentVolumeClaim:
