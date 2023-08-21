@@ -1,0 +1,9 @@
+# /etc/rancher/k3s/
+```yaml
+configs:
+  "cr.git.run":
+    auth:
+      auth: "glpat-WBxxxT8NqH1uLyZKrgad"
+    tls:
+      insecure_skip_verify: true
+```
