@@ -26,7 +26,7 @@ rbac:
   clusterWideAccess: false
   create: true
   podSecurityPolicy:
-    enabled: true
+    enabled: false
     resourceNames:
       - gitlab-runner
   rules: []
@@ -39,7 +39,7 @@ runners:
     [[runners]]
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
-        image = "ubuntu:16.04"
+        image = "ubuntu:22.04"
 secrets: []
 securityContext:
   allowPrivilegeEscalation: false
@@ -59,9 +59,9 @@ tolerations: []
 useTini: false
 volumeMounts:
   - mountPath: /cache
-    name: gitlab-runner-0
+    name: gitlab-runner-cache
 volumes:
-  - name: gitlab-runner-0
+  - name: gitlab-runner-cache
     persistentVolumeClaim:
       claimName: gitlab-runner-0
 certsSecretName: git.run.crt
@@ -69,5 +69,5 @@ gitlabUrl: https://git.run
 global:
   cattle:
     systemProjectId: p-xlzwq
-runnerToken: glrt-TShDfMyABYzto8Tm5BzK
+runnerToken: glrt-h4Qcvpq16boCgrg63XFQ
 ```
