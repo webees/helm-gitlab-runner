@@ -15,7 +15,7 @@ metrics:
   serviceMonitor:
     enabled: false
 nodeSelector:
-  node-role.kubernetes.io/worker: 'true'
+  app.runner: ''
 podAnnotations: {}
 podLabels: {}
 podSecurityContext:
@@ -40,6 +40,8 @@ runners:
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
         image = "ubuntu:22.04"
+        [runners.kubernetes.node_selector]
+          "app.runner" = ""
 secrets: []
 securityContext:
   allowPrivilegeEscalation: false
@@ -69,5 +71,5 @@ gitlabUrl: https://git.run
 global:
   cattle:
     systemProjectId: p-xlzwq
-runnerToken: glrt-h4Qcvpq16boCgrg63XFQ
+runnerToken: glrt-6YDmWgf-TZ9zjRsxqc-w
 ```
