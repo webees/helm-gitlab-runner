@@ -32,9 +32,7 @@ rbac:
   rules: []
 resources: {}
 runners:
-  cache:
-    cacheType: File
-    path: /cache
+  cache: {}
   config: |
     [[runners]]
       [runners.kubernetes]
@@ -42,6 +40,10 @@ runners:
         image = "ubuntu:22.04"
         [runners.kubernetes.node_selector]
           "app.runner" = ""
+        [[runners.kubernetes.volumes.empty_dir]]
+          name = "tmpfs"
+          mount_path = "/builds"
+          medium = "Memory"
 secrets: []
 securityContext:
   allowPrivilegeEscalation: false
@@ -59,13 +61,8 @@ sessionServer:
 terminationGracePeriodSeconds: 3600
 tolerations: []
 useTini: false
-volumeMounts:
-  - mountPath: /cache
-    name: gitlab-runner-cache
-volumes:
-  - name: gitlab-runner-cache
-    persistentVolumeClaim:
-      claimName: gitlab-runner-0
+volumeMounts: []
+volumes: []
 certsSecretName: git.run.crt
 gitlabUrl: https://git.run
 global:
