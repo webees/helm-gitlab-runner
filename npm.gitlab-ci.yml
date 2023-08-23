@@ -1,9 +1,8 @@
 ```
 stages:
   - 🛠 Build
-  - 🚀 Deploy
 
-image: ghcr.io/webees/kaniko-node12:main
+image: ghcr.io/webees/kaniko-node12:v1.0.0
 
 variables:
   CI_DEBUG_TRACE: "false"
@@ -18,33 +17,9 @@ cache:
 
 before_script:
     - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - |
-      echo "-----BEGIN CERTIFICATE-----
-      MIIDlTCCAn2gAwIBAgIUdz0ReKROzhx71mOufD1beKh1O0QwDQYJKoZIhvcNAQEL
-      BQAwUTELMAkGA1UEBhMCVVMxDTALBgNVBAgMBE5VTEwxDTALBgNVBAcMBE5VTEwx
-      DTALBgNVBAoMBFRFU1QxFTATBgNVBAMMDFRFU1QgUk9PVCBDQTAgFw0yMzA4MTMx
-      MzQ3NTlaGA8yMTIzMDcyMDEzNDc1OVowUTELMAkGA1UEBhMCVVMxDTALBgNVBAgM
-      BE5VTEwxDTALBgNVBAcMBE5VTEwxDTALBgNVBAoMBFRFU1QxFTATBgNVBAMMDFRF
-      U1QgUk9PVCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOKz4APu
-      UgMDWALbjGRn05oyn02k+nXI6hCcO/FJsR+Om/PoeZAxzbvaH+oR/UHDDj9Us1B3
-      F0FRofgy4yVgiXr71p7DVujyPXPPAp+Ie2c6VPhQ6XOmgHCBYjfSQx3EwHhwY8PI
-      RSu1zdudWBTAkeI0DTV+Dzs6qmR20bFGATTfonXisV/CZanJ7uFU7vlvdmWKcNuZ
-      Z4xGOcb2VLV4/sfM057cD7U1m/nolieyhiaSrXyiHRB4MuAbrYVAnvGmtD2Smttb
-      Z3WESZfBPx+9HG3i3m8EGgpTfzCD9JLXFpOt1huVqjz0f2x0gATcYXCUySqt79c5
-      a0f0xbEtNbNHBq8CAwEAAaNjMGEwHQYDVR0OBBYEFIa3vkpEioARtGW7T/6kP44A
-      mIbFMB8GA1UdIwQYMBaAFIa3vkpEioARtGW7T/6kP44AmIbFMA8GA1UdEwEB/wQF
-      MAMBAf8wDgYDVR0PAQH/BAQDAgGGMA0GCSqGSIb3DQEBCwUAA4IBAQA0ESYHtsiS
-      ueMvwSzgqAIWtQNFtWuYqw2QbJJ7tlyz68nKJ+NqwMBlJNq5mpiWKttAP5IQ+sdJ
-      NjntbcRYcw32+DWptonTkXPCoPoPnRnLyjvzKq8QCNOub1GxMoIOXdH1qWsp1qk8
-      nMVnxuCAWT/Pn3JuqXAOPZtrH1JLb2ep5vhASm5iPhQh2QiQox8hCZM+nOobi4c+
-      JnfBxAHsgg/kPghrezovkjv7dJE5nLsn4SYa/btjol61R5Lz3YWhyVmte+4uNntT
-      xeQN0sCqS68hqeV0jnCUlgc0HUugNO0LUrXWcp/YzKihryEoYCC1BePoJfe2SA9d
-      gCIb8FS3hXGE
-      -----END CERTIFICATE-----" >> /kaniko/ssl/certs/ca-certificates.crt
 
 build:
   stage: 🛠 Build
-  image: ghcr.io/webees/kaniko-node12:main
   only:
     - master
     - release
@@ -55,5 +30,5 @@ build:
     - npm ci
     - npm run build
     - ls -a
-    - executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}"
+    - executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}-${CI_COMMIT_SHA}" --skip-tls-verify
 ```
