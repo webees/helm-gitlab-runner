@@ -1,7 +1,7 @@
 ```yml
 affinity: {}
 checkInterval: 30
-concurrent: 10
+concurrent: 3
 configMaps: {}
 hostAliases: []
 image:
@@ -44,6 +44,9 @@ runners:
           name = "tmpfs"
           mount_path = "/builds"
           medium = "Memory"
+        [[runners.kubernetes.volumes.secret]]
+          name = "gitlab-runner-certs"
+          mount_path = "/etc/gitlab-runner/certs/"
 secrets: []
 securityContext:
   allowPrivilegeEscalation: false
@@ -63,7 +66,7 @@ tolerations: []
 useTini: false
 volumeMounts: []
 volumes: []
-certsSecretName: git.run.crt
+certsSecretName: gitlab-runner-certs
 gitlabUrl: https://git.run
 global:
   cattle:
