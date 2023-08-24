@@ -1,8 +1,9 @@
 ```
 stages:
+stages:
   - 🛠 Build
 
-image: ghcr.io/webees/kaniko-node12:v1.0.0
+image: ghcr.io/webees/kaniko-node12:v1.0.1
 
 variables:
   CI_DEBUG_TRACE: "false"
@@ -16,7 +17,24 @@ cache:
     - ${NPM_CONFIG_CACHE}
 
 before_script:
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    # - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+
+after_script:
+  - mkdir www
+  - cd dist
+  - mv index.html ../www
+  - git init
+  - git config --global user.email "${GITHUB_EMAIL}"
+  - git add -A
+  - git commit -m "GitLab Runner Push"
+  - git push -f https://${GITHUB_TOKEN}@github.com/xxx/xxx.git HEAD:dist-${CI_COMMIT_BRANCH}
+  # index.html
+  - cd ../www
+  - git init
+  - git config --global user.email "${GITHUB_EMAIL}"
+  - git add -A
+  - git commit -m "GitLab Runner Push"
+  - git push -f https://${GITHUB_TOKEN}@github.com/xxx/xxx.git HEAD:dist-${CI_COMMIT_BRANCH}
 
 build:
   stage: 🛠 Build
@@ -30,5 +48,5 @@ build:
     - npm ci
     - npm run build
     - ls -a
-    - executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}-${CI_COMMIT_SHA}" --skip-tls-verify
+    # - executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}" --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}-${CI_COMMIT_SHA}" --snapshot-mode=redo --cache=true --use-new-run --skip-tls-verify
 ```
