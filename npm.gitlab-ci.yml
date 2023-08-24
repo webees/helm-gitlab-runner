@@ -16,7 +16,7 @@ cache:
   paths:
     - ${NPM_CONFIG_CACHE}
 
-before_script:
+# before_script:
     # - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
 
 after_script:
