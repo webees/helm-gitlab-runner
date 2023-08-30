@@ -1,5 +1,15 @@
-```yml
-affinity: {}
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: chart
+                operator: In
+                values:
+                  - gitlab-runner-0.56.0
+          topologyKey: kubernetes.io/hostname
+        weight: 100
 checkInterval: 30
 concurrent: 3
 configMaps: {}
@@ -72,4 +82,3 @@ global:
   cattle:
     systemProjectId: p-xlzwq
 runnerToken: glrt-6YDmWgf-TZ9zjRsxqc-w
-```
