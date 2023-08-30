@@ -1,3 +1,4 @@
+```yml
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -82,3 +83,5 @@ global:
   cattle:
     systemProjectId: p-xlzwq
 runnerToken: glrt-6YDmWgf-TZ9zjRsxqc-w
+
+```
